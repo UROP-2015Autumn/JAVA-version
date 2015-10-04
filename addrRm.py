@@ -11,11 +11,15 @@
 import sys, re
 
 def main():
-	with open(sys.argv[1],'r') as fin:
-		lines = fin.readlines()
-		with open('rmd_'+sys.argv[1], 'w') as fout:
-			for line in lines:
-				fout.write(addrRm(line))
+	fin = open(sys.argv[1], 'r')
+	fout = open('rmd_'+sys.argv[1], 'w')
+	
+	lines = fin.readlines()
+	for line in lines:
+		fout.write(addrRm(line))
+
+	fin.close()
+	fout.close()
 
 def addrRm(line):
 	return re.sub('0x................', '', line).strip()+'\n'
