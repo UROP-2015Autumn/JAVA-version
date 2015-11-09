@@ -17,12 +17,14 @@ def main():
 	lines = fin.readlines()
 	for line in lines:
 		if line[0] == '0':
+			x=0
 			line=addrRm(line)
-			fout.write(line[:5]+'\n')
-		#fout.write(addrRm(line))
-		else:
-			fout.write(line)
-
+			while True:
+				if ord(line[x]) < 97 or ord(line[x]) > 122:
+					fout.write(line[:x].strip())
+					break
+				x=x+1		
+	fout.write('\n')
 	fin.close()
 	fout.close()
 
