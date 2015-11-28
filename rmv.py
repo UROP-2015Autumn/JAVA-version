@@ -11,6 +11,9 @@
 import sys, re
 
 def main():
+	cnt = 0
+	val = input("Input N-GRAM : ")
+
 	fin = open(sys.argv[1], 'r')
 	fout = open('rmd_'+sys.argv[1], 'w')
 	
@@ -22,6 +25,10 @@ def main():
 			while True:
 				if ord(line[x]) < 97 or ord(line[x]) > 122:
 					fout.write(line[:x].strip())
+					cnt += 1
+					if cnt is val:
+						fout.write('\n')
+						cnt = 0
 					break
 				x=x+1		
 	fout.write('\n')
@@ -29,7 +36,7 @@ def main():
 	fout.close()
 
 def addrRm(line):
-	return re.sub('0................', '', line).strip()+'\n'
+	return re.sub('0........', '', line).strip()+'\n'
 	
 if __name__ == '__main__':
 	main()
