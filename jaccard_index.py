@@ -36,6 +36,10 @@ def PutsetGetindex(nGramSet1,nGramSet2,dir_list1,dir_list2):
 	result.write(w_count_uni)
 	result.write("jaccard containment is ")
 	result.write(w_jac_con)
+
+def addrRm(line):
+	return re.sub('0........', '', line).strip()+'\n'
+
 # 파일로 부터 읽어온 문자들을 함수를 이용하여 nGram으로 나눠진 리스트로 만든다.
 def GetFiletoList(nGram,filename,dirname):
 
@@ -47,24 +51,23 @@ def GetFiletoList(nGram,filename,dirname):
 		infile = open(dirname+filename, "r")
 		lines = infile.readlines()
 		
-	totalStr_r = ""
-	totalStr = ""
-
-	#rstrip으로 \n 제거 
-	for line in lines :
-		totalStr_r += line.rstrip()
-	#split으로 space 제거 
-	lines_r = totalStr_r.split()
-	#스플릿으로 나누어진 리스트 형태의 텍스트들을 한줄의 텍스트로 변환
-	for line in lines_r :
-		totalStr += line
-	
 	nGramSet = []
-	
-	for i in range(0, len(totalStr) - nGram + 1) :
-	   if not totalStr[i:i+nGram] in nGramSet :
-	      nGramSet.append(totalStr[i:i+nGram])
-
+	totalStr = ""
+	cnt=0
+	for line in lines:
+		if line[0] == '0':
+			x=0
+			line=addrRm(line)
+			while True:
+				if ord(line[x]) < 97 or ord(line[x]) > 122:
+					totalStr +=line[:x].strip()
+					cnt += 1
+					if cnt is nGram:
+						nGramSet.append(totalStr)
+						totalStr=""
+						cnt = 0
+					break
+				x=x+1		
 	return nGramSet;
 
 def Get_dir_list(dirname):
@@ -78,6 +81,7 @@ if __name__ == '__main__':
 
 	import os
 	import sys
+	import re
 
 	reload(sys)
 	sys.setdefaultencoding('utf-8')
