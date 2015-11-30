@@ -14,6 +14,8 @@ def PutsetGetindex(nGramSet1,nGramSet2,dir_list1,dir_list2):
 	intersection = set1 & set2
 	union = set1 | set2
 
+	minimum = min(len(set1),len(set2))
+	
 	count_inter = len(intersection)
 	count_uni = len(union)
 	if(count_uni != 0):
@@ -24,6 +26,9 @@ def PutsetGetindex(nGramSet1,nGramSet2,dir_list1,dir_list2):
 	w_count_inter = "%d\n" %count_inter
 	w_count_uni = "%d\n" %count_uni
 	w_jac_con = "%d\n" %jac_con
+	#jaccard_similarity (A n B)/min(A,B)
+	w_jac_sim = "%d\n" %((100*count_inter)/minimum)
+
 	#if(jac_con > 0.6): 자카르트 인뎃스를 얼마로 해야할까에 대한 기준 설정
 
 	result.write(dir_list1)
@@ -34,8 +39,11 @@ def PutsetGetindex(nGramSet1,nGramSet2,dir_list1,dir_list2):
 	result.write(w_count_inter)
 	result.write("How many union: ")
 	result.write(w_count_uni)
-	result.write("jaccard containment is ")
+	result.write("jaccard index is ")
 	result.write(w_jac_con)
+	result.write("jaccard similarity ")
+	result.write(w_jac_sim)
+
 
 def addrRm(line):
 	return re.sub('0........', '', line).strip()+'\n'
